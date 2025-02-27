@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to RS Legal Solutions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1a237e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature {
+            padding: 15px;
+            background-color: #e8eaf6;
+            border-radius: 4px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666666;
+            font-size: 12px;
+        }
+        .social-links {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .social-links a {
+            margin: 0 10px;
+            color: #1a237e;
+            text-decoration: none;
+        }
+        .contact-info {
+            background-color: #fff3e0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to RS Legal Solutions</h1>
+        </div>
+        
+        <div class="content">
+            <p>Dear {{name}},</p>
+            
+            <p>Welcome to RS Legal Solutions! We're delighted to have you join our community. Your account has been successfully created, and you now have access to our comprehensive legal services platform.</p>
+
+            <div style="text-align: center;">
+                <a href="{{loginUrl}}" class="cta-button">
+                    Access Your Account
+                </a>
+            </div>
+
+            <div class="section">
+                <h3>Getting Started</h3>
+                <p>Here's what you can do with your account:</p>
+                <div class="features">
+                    <div class="feature">
+                        <h4>📅 Book Appointments</h4>
+                        <p>Schedule consultations with our legal experts</p>
+                    </div>
+                    <div class="feature">
+                        <h4>📚 Access Resources</h4>
+                        <p>Browse our legal guides and documents</p>
+                    </div>
+                    <div class="feature">
+                        <h4>📋 Track Cases</h4>
+                        <p>Monitor your case progress</p>
+                    </div>
+                    <div class="feature">
+                        <h4>💬 Get Support</h4>
+                        <p>Direct communication with our team</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Next Steps</h3>
+                <ol>
+                    <li>Complete your profile information</li>
+                    <li>Browse our available legal services</li>
+                    <li>Schedule your first consultation</li>
+                    <li>Explore our knowledge base</li>
+                </ol>
+            </div>
+
+            <div class="contact-info">
+                <h3>Need Assistance?</h3>
+                <p>Our support team is here to help:</p>
+                <ul>
+                    <li>📞 Phone: {{supportPhone}}</li>
+                    <li>✉️ Email: {{supportEmail}}</li>
+                    <li>⏰ Hours: Monday - Friday, 9:00 AM - 6:00 PM</li>
+                </ul>
+            </div>
+
+            <div class="social-links">
+                <p>Stay connected with us:</p>
+                <a href="{{facebookUrl}}">Facebook</a> |
+                <a href="{{linkedinUrl}}">LinkedIn</a> |
+                <a href="{{twitterUrl}}">Twitter</a>
+            </div>
+
+            <p>We look forward to serving your legal needs and providing you with exceptional service.</p>
+
+            <p>Best regards,<br>The RS Legal Solutions Team</p>
+        </div>
+
+        <div class="footer">
+            <p>© {{currentYear}} RS Legal Solutions. All rights reserved.</p>
+            <p>{{officeAddress}}</p>
+            <p>
+                <small>
+                    This email was sent to {{email}} as part of your registration with RS Legal Solutions. 
+                    If you did not create this account, please contact us immediately.
+                </small>
+            </p>
+            <p>
+                <small>
+                    Confidentiality Notice: This email and any attachments are confidential and may be privileged. 
+                    If you are not the intended recipient, please delete it and notify us immediately.
+                </small>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

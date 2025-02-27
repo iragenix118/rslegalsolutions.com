@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1a237e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .details {
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666666;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .info {
+            margin: 10px 0;
+        }
+        .highlight {
+            color: #1a237e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Appointment Confirmation</h1>
+        </div>
+        
+        <div class="content">
+            <p>Dear {{clientName}},</p>
+            
+            <p>Thank you for scheduling an appointment with RS Legal Solutions. Your appointment has been confirmed.</p>
+            
+            <div class="details">
+                <div class="info">
+                    <strong>Service:</strong> {{serviceName}}
+                </div>
+                <div class="info">
+                    <strong>Date:</strong> {{date}}
+                </div>
+                <div class="info">
+                    <strong>Time:</strong> {{time}}
+                </div>
+                <div class="info">
+                    <strong>Confirmation Code:</strong> <span class="highlight">{{confirmationCode}}</span>
+                </div>
+            </div>
+
+            <h3>Important Information:</h3>
+            <ul>
+                <li>Please arrive 10 minutes before your scheduled appointment time.</li>
+                <li>Bring any relevant documents related to your case.</li>
+                <li>If you need to reschedule or cancel, please do so at least 24 hours in advance.</li>
+                <li>Keep your confirmation code handy for future reference.</li>
+            </ul>
+
+            <p>You can manage your appointment using the button below:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{clientPortalUrl}}/appointments/{{confirmationCode}}" class="button">
+                    Manage Appointment
+                </a>
+            </div>
+
+            <p>If you have any questions or need to make changes to your appointment, please don't hesitate to contact us:</p>
+            <ul>
+                <li>Phone: {{contactPhone}}</li>
+                <li>Email: {{contactEmail}}</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>This is an automated message, please do not reply directly to this email.</p>
+            <p>© {{currentYear}} RS Legal Solutions. All rights reserved.</p>
+            <p>
+                {{officeAddress}}<br>
+                {{officePhone}} | {{officeEmail}}
+            </p>
+            <p>
+                <small>
+                    This email and any attachments are confidential and may be privileged. If you are not the intended recipient, 
+                    please delete it and notify us immediately. Any unauthorized use is strictly prohibited.
+                </small>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

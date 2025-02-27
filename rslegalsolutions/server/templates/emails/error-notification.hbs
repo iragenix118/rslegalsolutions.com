@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Error Alert</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px 4px 0 0;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .error-details {
+            background-color: #fafafa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 4px solid #d32f2f;
+            overflow-x: auto;
+        }
+        .system-info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 4px solid #1976d2;
+        }
+        .stack-trace {
+            background-color: #263238;
+            color: #ffffff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666666;
+            font-size: 12px;
+        }
+        .severity {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .severity.high {
+            background-color: #d32f2f;
+            color: white;
+        }
+        .severity.medium {
+            background-color: #f57c00;
+            color: white;
+        }
+        .severity.low {
+            background-color: #fdd835;
+            color: black;
+        }
+        .action-required {
+            background-color: #fff3e0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 4px solid #ff9800;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚠️ System Error Alert</h1>
+            <p>{{timestamp}}</p>
+        </div>
+        
+        <div class="content">
+            <div class="error-details">
+                <h2>Error Information</h2>
+                <table>
+                    <tr>
+                        <th>Severity:</th>
+                        <td>
+                            <span class="severity {{error.severity}}">
+                                {{error.severity}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Error Type:</th>
+                        <td>{{error.type}}</td>
+                    </tr>
+                    <tr>
+                        <th>Message:</th>
+                        <td>{{error.message}}</td>
+                    </tr>
+                    <tr>
+                        <th>Location:</th>
+                        <td>{{error.location}}</td>
+                    </tr>
+                    <tr>
+                        <th>Time:</th>
+                        <td>{{error.timestamp}}</td>
+                    </tr>
+                </table>
+
+                <h3>Stack Trace:</h3>
+                <div class="stack-trace">
+                    <pre>{{error.stack}}</pre>
+                </div>
+            </div>
+
+            <div class="system-info">
+                <h3>System Information</h3>
+                <table>
+                    <tr>
+                        <th>Environment:</th>
+                        <td>{{system.environment}}</td>
+                    </tr>
+                    <tr>
+                        <th>Node Version:</th>
+                        <td>{{system.nodeVersion}}</td>
+                    </tr>
+                    <tr>
+                        <th>Memory Usage:</th>
+                        <td>{{system.memoryUsage}}</td>
+                    </tr>
+                    <tr>
+                        <th>CPU Load:</th>
+                        <td>{{system.cpuLoad}}</td>
+                    </tr>
+                    <tr>
+                        <th>Uptime:</th>
+                        <td>{{system.uptime}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            {{#if error.context}}
+            <div class="error-details">
+                <h3>Additional Context</h3>
+                <pre>{{error.context}}</pre>
+            </div>
+            {{/if}}
+
+            <div class="action-required">
+                <h3>⚡ Required Actions</h3>
+                <ol>
+                    <li>Review the error details and stack trace</li>
+                    <li>Check system logs for related issues</li>
+                    <li>Verify system stability and performance</li>
+                    <li>Implement necessary fixes or patches</li>
+                    <li>Monitor the system for similar errors</li>
+                </ol>
+            </div>
+
+            <p>Access the admin dashboard for more details and monitoring tools:</p>
+            <ul>
+                <li><a href="{{dashboardUrl}}/monitoring">System Monitoring</a></li>
+                <li><a href="{{dashboardUrl}}/logs">Error Logs</a></li>
+                <li><a href="{{dashboardUrl}}/alerts">Alert Configuration</a></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>This is an automated error notification from RS Legal Solutions system monitoring.</p>
+            <p>© {{currentYear}} RS Legal Solutions - Technical Operations</p>
+            <p>
+                <small>
+                    Confidentiality Notice: This email contains sensitive technical information 
+                    and is intended only for authorized system administrators.
+                </small>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

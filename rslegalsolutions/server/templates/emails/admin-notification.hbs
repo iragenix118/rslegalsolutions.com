@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Notification - {{subject}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1a237e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 4px 4px 0 0;
+        }
+        .content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .notification-details {
+            background-color: #e8eaf6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric-card {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        .priority {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .priority.high {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+        .priority.medium {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border: 1px solid #ff9800;
+        }
+        .priority.low {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #66bb6a;
+        }
+        .action-items {
+            background-color: #fff3e0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 4px solid #ff9800;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666666;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Admin Notification</h1>
+            <p>{{timestamp}}</p>
+        </div>
+        
+        <div class="content">
+            <div class="notification-details">
+                <span class="priority {{priority}}">{{priority}} Priority</span>
+                <h2>{{subject}}</h2>
+                <p>{{message}}</p>
+            </div>
+
+            {{#if metrics}}
+            <div class="metrics">
+                {{#each metrics}}
+                <div class="metric-card">
+                    <h3>{{this.label}}</h3>
+                    <div class="metric-value">{{this.value}}</div>
+                    <p>{{this.description}}</p>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+
+            {{#if details}}
+            <div class="notification-details">
+                <h3>Detailed Information</h3>
+                <table>
+                    {{#each details}}
+                    <tr>
+                        <th>{{this.label}}</th>
+                        <td>{{this.value}}</td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+            {{/if}}
+
+            {{#if actionItems}}
+            <div class="action-items">
+                <h3>Required Actions</h3>
+                <ol>
+                    {{#each actionItems}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ol>
+            </div>
+            {{/if}}
+
+            {{#if relatedLinks}}
+            <div class="notification-details">
+                <h3>Related Links</h3>
+                <ul>
+                    {{#each relatedLinks}}
+                    <li><a href="{{this.url}}">{{this.label}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+            {{/if}}
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{dashboardUrl}}" class="button">
+                    View in Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>This is an administrative notification from RS Legal Solutions.</p>
+            <p>© {{currentYear}} RS Legal Solutions - Administrative Team</p>
+            <p>
+                <small>
+                    Confidentiality Notice: This email contains sensitive administrative information 
+                    and is intended only for authorized personnel.
+                </small>
+            </p>
+            <p>
+                <small>
+                    Generated by System: {{systemInfo.environment}} | Version: {{systemInfo.version}}
+                </small>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+version: '3.8'
+
+services:
+  # Frontend React application
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: rs-legal-client
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - server
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://api.rslegalsolutions.com
+    networks:
+      - rs-legal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Backend Node.js API
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: rs-legal-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/rslegalsolutions
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+    volumes:
+      - uploads:/app/uploads
+      - logs:/app/logs
+      - backups:/app/backups
+    networks:
+      - rs-legal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # MongoDB database
+  mongodb:
+    image: mongo:latest
+    container_name: rs-legal-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=rslegalsolutions
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - rs-legal-network
+    restart: unless-stopped
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis cache
+  redis:
+    image: redis:alpine
+    container_name: rs-legal-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - rs-legal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: rs-legal-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - client
+      - server
+    networks:
+      - rs-legal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mongodb_data:
+    name: rs-legal-mongodb-data
+  mongodb_config:
+    name: rs-legal-mongodb-config
+  redis_data:
+    name: rs-legal-redis-data
+  uploads:
+    name: rs-legal-uploads
+  logs:
+    name: rs-legal-logs
+  backups:
+    name: rs-legal-backups
+
+networks:
+  rs-legal-network:
+    name: rs-legal-network
+    driver: bridge
+
+# Global configurations
+x-logging: &logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+# Resource limits
+x-resources: &resources
+  deploy:
+    resources:
+      limits:
+        cpus: '0.50'
+        memory: 512M
+      reservations:
+        cpus: '0.25'
+        memory: 256M
